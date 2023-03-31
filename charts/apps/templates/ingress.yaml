@@ -1,0 +1,25 @@
+{{- range .Values.ingress -}}
+{{ $releaseName := $.Values.appName }}
+{{ $servicePort := $.Values.service.port }}
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  labels:
+    app.kubernetes.io/instance: {{ $.Values.appName }}-{{ $.Values.environment }}
+  name: {{ .name }}
+  namespace: {{ printf "sid-%s" $.Values.namespace }}
+spec:
+  rules:
+  - http:
+      paths:
+      {{- range $path := .paths}}
+      - path: {{ $path }}
+        pathType: Prefix
+        backend:
+          service:
+            name: {{ $releaseName }}
+            port:
+              number: {{ $servicePort }}
+      {{- end }}
+{{- end }}

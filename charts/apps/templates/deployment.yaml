@@ -1,0 +1,54 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Values.appName }}
+  namespace: {{ printf "sid-%s" .Values.namespace }}
+  labels:
+    app: {{ .Values.appName }}
+    env: {{ .Values.environment }}
+spec:
+  revisionHistoryLimit: 3
+  {{- if (.Values.suspended)}}
+  replicas: 0
+  {{- end }}
+  selector:
+    matchLabels:
+      app: {{ .Values.appName }}
+      release: {{ .Values.appName}}
+  template:
+    metadata:
+      annotations:
+        enable_logging: {{ .Values.logs.enabled | ternary "true" "false" | quote }}
+      labels:
+        app: {{ .Values.appName }}
+        release: {{ .Values.appName }}
+        env: {{ .Values.environment }}
+    spec:
+      serviceAccountName: {{ .Values.appName }}
+      terminationGracePeriodSeconds: 80
+      containers:
+      - name: {{ .Values.appName }}
+        image: "{{ .Values.image.registry }}/{{ .Values.image.name }}:{{ .Values.image.tag }}"
+        imagePullPolicy: {{ .Values.image.pullPolicy }}
+        ports:
+          - name: http
+            containerPort: {{ .Values.image.containerPort }}
+            protocol: TCP
+        envFrom:
+          {{- if .Values.env }}
+          - configMapRef:
+              name: {{ $.Values.appName }}
+          {{- end }}
+        {{- if .Values.livenessProbe.enabled }}
+        livenessProbe:
+          httpGet:
+            path: {{ .Values.livenessProbe.http.path | default "/" }}
+            port: http
+          initialDelaySeconds: {{ .Values.livenessProbe.initialDelaySeconds | default 30 }}
+          periodSeconds: {{ .Values.livenessProbe.periodSeconds | default 10 }}
+          successThreshold: {{ .Values.livenessProbe.successThreshold | default 1 }}
+          timeoutSeconds: {{ .Values.livenessProbe.timeoutSeconds | default 3 }}
+          failureThreshold: {{ .Values.livenessProbe.failureThreshold | default 3 }}
+        {{- end }}
+        resources:
+{{ toYaml .Values.resources | indent 10 }}
