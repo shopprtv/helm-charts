@@ -17,8 +17,6 @@ spec:
       release: {{ .Values.appName}}
   template:
     metadata:
-      annotations:
-        enable_logging: {{ .Values.logs.enabled | ternary "true" "false" | quote }}
       labels:
         app: {{ .Values.appName }}
         release: {{ .Values.appName }}
