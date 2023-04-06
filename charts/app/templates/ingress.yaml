@@ -1,4 +1,3 @@
-{{- range .Values.ingress -}}
 {{ $releaseName := $.Values.appName }}
 {{ $servicePort := $.Values.service.port }}
 ---
@@ -7,13 +6,13 @@ kind: Ingress
 metadata:
   labels:
     app.kubernetes.io/instance: {{ $.Values.appName }}-{{ $.Values.environment }}
-  name: {{ .name }}
+  name: {{ $.Values.ingress.name }}
   namespace: {{ printf "sid-%s" $.Values.namespace }}
 spec:
   rules:
   - http:
       paths:
-      {{- range $path := .paths}}
+      {{- range $path := $.Values.ingress.paths}}
       - path: {{ $path }}
         pathType: Prefix
         backend:
@@ -22,4 +21,3 @@ spec:
             port:
               number: {{ $servicePort }}
       {{- end }}
-{{- end }}
