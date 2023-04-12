@@ -10,7 +10,7 @@ spec:
   type: NodePort
   ports:
     - port: {{ .Values.service.port }}
-      targetPort: {{ .Values.containerPort }}
+      targetPort: {{ .Values.image.containerPort }}
       nodePort: 30100
       protocol: TCP
       name: http
