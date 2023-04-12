@@ -14,12 +14,11 @@ spec:
   selector:
     matchLabels:
       app: {{ .Values.appName }}
-      release: {{ .Values.appName}}
+      env: {{ .Values.environment }}
   template:
     metadata:
       labels:
         app: {{ .Values.appName }}
-        release: {{ .Values.appName }}
         env: {{ .Values.environment }}
     spec:
       serviceAccountName: {{ .Values.appName }}

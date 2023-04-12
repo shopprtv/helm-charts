@@ -15,5 +15,6 @@ spec:
       protocol: TCP
       name: http
   selector:
-    app: {{ .Values.appName }}-primary
+    app: {{ .Values.appName }}
+    env: {{ .Values.environment }}
 {{- end }}
