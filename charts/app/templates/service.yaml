@@ -7,10 +7,11 @@ metadata:
   labels:
     app: {{ .Values.appName }}
 spec:
-  type: ClusterIP
+  type: NodePort
   ports:
     - port: {{ .Values.service.port }}
-      targetPort: http
+      targetPort: {{ .Values.containerPort }}
+      nodePort: 30100
       protocol: TCP
       name: http
   selector:
