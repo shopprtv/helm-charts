@@ -7,13 +7,13 @@ metadata:
   labels:
     app: {{ .Values.appName }}
 spec:
-  type: NodePort
+  # type: NodePort # just use it when debugging
   ports:
     - port: {{ .Values.service.port }}
       targetPort: {{ .Values.image.containerPort }}
-      nodePort: 30100
       protocol: TCP
       name: http
+      # nodePort: 30100 # only works with type: NodePort
   selector:
     app: {{ .Values.appName }}
     env: {{ .Values.environment }}

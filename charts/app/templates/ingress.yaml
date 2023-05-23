@@ -10,7 +10,8 @@ metadata:
   namespace: {{ printf "sid-%s" $.Values.namespace }}
 spec:
   rules:
-  - http:
+  - host: {{ $.Values.ingress.domain }}
+    http:
       paths:
       {{- range $path := $.Values.ingress.paths}}
       - path: {{ $path }}
