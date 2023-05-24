@@ -2,6 +2,14 @@ apiVersion: v1
 entries:
   app:
   - apiVersion: v2
+    created: "2023-05-24T22:54:02.468839897Z"
+    description: A Helm chart for Kubernetes
+    digest: 1abbcf759a1502ddcddcb49d83412945d739e69d2598f2477fc549f42b631502
+    name: app
+    urls:
+    - https://github.com/reisraff/helm-charts/releases/download/app-0.6.0/app-0.6.0.tgz
+    version: 0.6.0
+  - apiVersion: v2
     created: "2023-05-23T20:22:29.50509783Z"
     description: A Helm chart for Kubernetes
     digest: 9222c0627f029b67f1291eb8177c61f6a9041295681ea3ae3849ae6396d241f0
@@ -82,4 +90,4 @@ entries:
     urls:
     - https://github.com/reisraff/helm-charts/releases/download/apps-0.2.0/apps-0.2.0.tgz
     version: 0.2.0
-generated: "2023-05-23T20:22:29.505137232Z"
+generated: "2023-05-24T22:54:02.468879597Z"
