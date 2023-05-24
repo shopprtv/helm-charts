@@ -32,8 +32,12 @@ spec:
             containerPort: {{ .Values.image.containerPort }}
             protocol: TCP
         envFrom:
-          {{- if .Values.env }}
+          {{- if .Values.env.public }}
           - configMapRef:
+              name: {{ $.Values.appName }}
+          {{- end }}
+          {{- if .Values.env.private }}
+          - secretRef:
               name: {{ $.Values.appName }}
           {{- end }}
         {{- if .Values.livenessProbe.enabled }}
