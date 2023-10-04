@@ -52,4 +52,6 @@ spec:
           failureThreshold: {{ .Values.livenessProbe.failureThreshold | default 3 }}
         {{- end }}
         resources:
+      imagePullSecrets:
+      - name: regcred
 {{ toYaml .Values.resources | indent 10 }}
