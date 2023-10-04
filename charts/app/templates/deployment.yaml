@@ -27,8 +27,6 @@ spec:
       - name: {{ .Values.name }}
         image: "{{ .Values.image.registry }}/{{ .Values.image.name }}:{{ .Values.image.tag }}"
         imagePullPolicy: {{ .Values.image.pullPolicy }}
-        imagePullSecrets:
-        - name: regcred
         ports:
           - name: http
             containerPort: {{ .Values.image.containerPort }}
@@ -54,4 +52,6 @@ spec:
           failureThreshold: {{ .Values.livenessProbe.failureThreshold | default 3 }}
         {{- end }}
         resources:
+      imagePullSecrets:
+        - name: regcred
 {{ toYaml .Values.resources | indent 10 }}
