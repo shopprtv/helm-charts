@@ -1,10 +1,10 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: {{ .Values.appName }}
+  name: {{ .Values.name }}
   namespace: {{ printf "sid-%s" .Values.namespace }}
   labels:
-    app: {{ .Values.appName }}
+    app: {{ .Values.name }}
     env: {{ .Values.environment }}
 spec:
   revisionHistoryLimit: 3
@@ -13,18 +13,18 @@ spec:
   {{- end }}
   selector:
     matchLabels:
-      app: {{ .Values.appName }}
+      app: {{ .Values.name }}
       env: {{ .Values.environment }}
   template:
     metadata:
       labels:
-        app: {{ .Values.appName }}
+        app: {{ .Values.name }}
         env: {{ .Values.environment }}
     spec:
-      serviceAccountName: {{ .Values.appName }}
+      serviceAccountName: {{ .Values.name }}
       terminationGracePeriodSeconds: 80
       containers:
-      - name: {{ .Values.appName }}
+      - name: {{ .Values.name }}
         image: "{{ .Values.image.registry }}/{{ .Values.image.name }}:{{ .Values.image.tag }}"
         imagePullPolicy: {{ .Values.image.pullPolicy }}
         ports:
@@ -34,11 +34,11 @@ spec:
         envFrom:
           {{- if .Values.env.public }}
           - configMapRef:
-              name: {{ $.Values.appName }}
+              name: {{ $.Values.name }}
           {{- end }}
           {{- if .Values.env.private }}
           - secretRef:
-              name: {{ $.Values.appName }}
+              name: {{ $.Values.name }}
           {{- end }}
         {{- if .Values.livenessProbe.enabled }}
         livenessProbe:
