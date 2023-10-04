@@ -23,6 +23,8 @@ spec:
     spec:
       serviceAccountName: {{ .Values.name }}
       terminationGracePeriodSeconds: 80
+      imagePullSecrets:
+        - name: regcred
       containers:
       - name: {{ .Values.name }}
         image: "{{ .Values.image.registry }}/{{ .Values.image.name }}:{{ .Values.image.tag }}"
@@ -52,6 +54,4 @@ spec:
           failureThreshold: {{ .Values.livenessProbe.failureThreshold | default 3 }}
         {{- end }}
         resources:
-      imagePullSecrets:
-        - name: regcred
 {{ toYaml .Values.resources | indent 10 }}
