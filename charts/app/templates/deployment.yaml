@@ -51,10 +51,11 @@ spec:
           - secretRef:
               name: {{ $.Values.name }}
           {{- end }}
+        {{- if .Values.livenessProbe }}
         {{- if .Values.livenessProbe.enabled }}
         livenessProbe:
           httpGet:
-            path: {{ .Values.livenessProbe.http.path | default "/" }}
+            path: {{ .Values.livenessProbe.httpPath | default "/" }}
             port: http
           initialDelaySeconds: {{ .Values.livenessProbe.initialDelaySeconds | default 30 }}
           periodSeconds: {{ .Values.livenessProbe.periodSeconds | default 10 }}
@@ -62,5 +63,8 @@ spec:
           timeoutSeconds: {{ .Values.livenessProbe.timeoutSeconds | default 3 }}
           failureThreshold: {{ .Values.livenessProbe.failureThreshold | default 3 }}
         {{- end }}
+        {{- end }}
+        {{- if .Values.resources }}
         resources:
 {{ toYaml .Values.resources | indent 10 }}
+        {{- end }}

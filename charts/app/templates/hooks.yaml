@@ -18,7 +18,9 @@ spec:
       containers:
       - name: {{ .name }}
         image: {{ .image.registry }}/{{ .image.name }}:{{ .image.tag }}
+        {{- if .command }}
         command: [{{ .command | quote }}]
+        {{- end }}
         {{- if .args }}
         args:
         {{- range .args }}
@@ -26,6 +28,7 @@ spec:
         {{- end }}
         {{- end }}
         envFrom:
+          {{- if $.Values.env }}
           {{- if $.Values.env.public }}
           - configMapRef:
               name: {{ $.Values.name }}
@@ -33,6 +36,7 @@ spec:
           {{- if $.Values.env.private }}
           - secretRef:
               name: {{ $.Values.name }}
+          {{- end }}
           {{- end }}
       restartPolicy: Never
   backoffLimit: 3

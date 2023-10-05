@@ -1,3 +1,4 @@
+{{- if .Values.env }}
 {{- if .Values.env.public }}
 apiVersion: v1
 kind: ConfigMap
@@ -8,4 +9,5 @@ data:
     {{- range $name, $value := .Values.env.public }}
     {{ $name | quote}}: {{ $value | quote}}
     {{- end }}
+{{- end}}
 {{- end}}
