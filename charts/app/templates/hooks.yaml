@@ -17,7 +17,7 @@ spec:
       serviceAccountName: {{ $.Values.name }}
       containers:
       - name: {{ .name }}
-        image: {{ .image.registry }}/{{ .image.name }}:{{ .image.tag }}
+        image: "{{ .image.registry }}/{{ .image.name }}:{{ .image.tag }}"
         {{- if .command }}
         command: [{{ .command | quote }}]
         {{- end }}
