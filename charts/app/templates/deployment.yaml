@@ -29,6 +29,15 @@ spec:
       - name: {{ .Values.name }}
         image: "{{ .Values.image.registry }}/{{ .Values.image.name }}:{{ .Values.image.tag }}"
         imagePullPolicy: {{ .Values.image.pullPolicy }}
+        {{- if .command }}
+        command: [{{ .command | quote }}]
+        {{- end }}
+        {{- if .args }}
+        args:
+        {{- range .args }}
+        - {{ . | quote }}
+        {{- end }}
+        {{- end }}
         ports:
           - name: http
             containerPort: {{ .Values.image.containerPort }}

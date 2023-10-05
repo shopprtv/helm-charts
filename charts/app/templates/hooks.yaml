@@ -1,0 +1,39 @@
+{{- range .Values.hooks }}
+---
+apiVersion: batch/v1
+kind: Job
+metadata:
+  namespace: {{ printf "sid-%s" $.Values.namespace }}
+  generateName: {{ .name }}-
+  annotations:
+    argocd.argoproj.io/hook: {{ .stage | default "PreSync" }}
+    {{- if .deletionPolicy }}
+    argocd.argoproj.io/hook-delete-policy: {{ .deletionPolicy | default "HookSucceeded" }}
+    {{- end }}
+spec:
+  ttlSecondsAfterFinished: 600
+  template:
+    spec:
+      serviceAccountName: {{ $.Values.name }}
+      containers:
+      - name: {{ .name }}
+        image: {{ .image.registry }}/{{ .image.name }}:{{ .image.tag }}
+        command: [{{ .command | quote }}]
+        {{- if .args }}
+        args:
+        {{- range .args }}
+        - {{ . | quote }}
+        {{- end }}
+        {{- end }}
+        envFrom:
+          {{- if $.Values.env.public }}
+          - configMapRef:
+              name: {{ $.Values.name }}
+          {{- end }}
+          {{- if $.Values.env.private }}
+          - secretRef:
+              name: {{ $.Values.name }}
+          {{- end }}
+      restartPolicy: Never
+  backoffLimit: 3
+{{- end }}
