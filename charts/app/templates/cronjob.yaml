@@ -34,7 +34,7 @@ spec:
           imagePullSecrets:
             - name: regcred
           containers:
-          - name: {{ $.Values.appName }}
+          - name: {{ $.Values.name }}
             image: "{{ .Values.image.registry }}/{{ .Values.image.name }}:{{ .Values.image.tag }}"
             imagePullPolicy: {{ .Values.image.pullPolicy }}
             {{- if .command }}
