@@ -33,7 +33,7 @@ spec:
         {{- if .Values.image.command }}
         command: [{{ .Values.image.command | quote }}]
         {{- end }}
-        {{- if .args }}
+        {{- if .Values.image.args }}
         args:
         {{- range .Values.image.args }}
         - {{ . | quote }}
