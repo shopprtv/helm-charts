@@ -38,10 +38,12 @@ spec:
         - {{ . | quote }}
         {{- end }}
         {{- end }}
+        {{- if .Values.image.containerPort }}
         ports:
           - name: http
             containerPort: {{ .Values.image.containerPort }}
             protocol: TCP
+        {{- end }}
         envFrom:
           {{- if .Values.env }}
           {{- if .Values.env.public }}
