@@ -73,7 +73,7 @@ spec:
         {{- if .Values.readinessProbe.enabled }}
         readinessProbe:
           httpGet:
-            path: {{ .Values.readinessProbe.httpPath | default "/" }}
+            path: {{ .Values.readinessProbe.httpPath | default "/health-check" }}
             port: http
           initialDelaySeconds: {{ .Values.readinessProbe.initialDelaySeconds | default 10 }}
           timeoutSeconds: {{ .Values.readinessProbe.timeoutSeconds | default 5 }}
