@@ -29,6 +29,6 @@ spec:
       {{- end }}
   tls:
   - hosts:
-    - "shoppr.tv"
+    - {{ $.Values.ingress.domain }}
     secretName: certificate-secret-name
 {{- end }}
