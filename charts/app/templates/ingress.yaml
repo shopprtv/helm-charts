@@ -30,5 +30,5 @@ spec:
   tls:
   - hosts:
     - "shoppr.tv"
-    secretName: certificate-secret
+    secretName: certificate-secret-name
 {{- end }}
