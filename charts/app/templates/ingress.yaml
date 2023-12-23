@@ -13,6 +13,12 @@ metadata:
     kubernetes.io/ingress.class: nginx
     cert-manager.io/cluster-issuer: letsencrypt-production
     nginx.ingress.kubernetes.io/rewrite-target: /
+    {{- if $.Values.ingress.buffersize }}
+    nginx.ingress.kubernetes.io/client-body-buffer-size: {{ $.Values.ingress.buffersize }}
+    {{- end }}
+    {{- if $.Values.ingress.bodysize }}
+    nginx.ingress.kubernetes.io/proxy-body-size: {{ $.Values.ingress.bodysize }}
+    {{- end }}
 spec:
   rules:
   - host: {{ $.Values.ingress.domain }}
