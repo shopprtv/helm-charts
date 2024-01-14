@@ -3,7 +3,7 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: {{ .Values.name }}
+  name: {{ .Values.name }}-{{ .Values.environment }}
   namespace: {{ printf "sid-%s" .Values.namespace }}
   labels:
     app: {{ .Values.name }}
